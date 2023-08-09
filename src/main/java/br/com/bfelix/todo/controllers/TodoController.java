@@ -38,10 +38,17 @@ public class TodoController {
     public ResponseEntity<Optional<TodoDTO>> buscarTodoPorId(@PathVariable("todoId") Long id) {
 
         Optional<TodoDTO> todoDTO = todoService.getTodoById(id);
+
         if (todoDTO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(todoDTO);
+    }
+
+    @GetMapping(TODO_PATH + "/open")
+    public ResponseEntity<List<TodoDTO>> listarTodosAberto() {
+        List<TodoDTO> todoDTOList = todoService.listTodoOpen();
+        return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
     }
 
 }
