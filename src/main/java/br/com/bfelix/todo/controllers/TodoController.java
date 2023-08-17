@@ -21,6 +21,7 @@ public class TodoController {
 
     private static final String TODO_PATH = "/api/v1/todo";
     private static final String TODO_PATH_OPEN = TODO_PATH + "/open";
+    private static final String TODO_PATH_CLOSE = TODO_PATH + "/close";
     private static final String TODO_PATH_ID = TODO_PATH + "/{todoId}";
 
     private final TodoService todoService;
@@ -36,6 +37,18 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
     }
 
+    @GetMapping(TODO_PATH_OPEN)
+    public ResponseEntity<List<TodoDTO>> listarTodosAberto() {
+        List<TodoDTO> todoDTOList = todoService.listTodoOpen();
+        return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
+    }
+
+    @GetMapping(TODO_PATH_CLOSE)
+    public ResponseEntity<List<TodoDTO>> listarTodosFechado() {
+        List<TodoDTO> todoDTOList = todoService.listTodoClose();
+        return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
+    }
+
     @GetMapping(TODO_PATH_ID)
     public ResponseEntity<Optional<TodoDTO>> buscarTodoPorId(@PathVariable("todoId") Long id) {
 
@@ -46,11 +59,4 @@ public class TodoController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(todoDTO);
     }
-
-    @GetMapping(TODO_PATH_OPEN)
-    public ResponseEntity<List<TodoDTO>> listarTodosAberto() {
-        List<TodoDTO> todoDTOList = todoService.listTodoOpen();
-        return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
-    }
-
 }

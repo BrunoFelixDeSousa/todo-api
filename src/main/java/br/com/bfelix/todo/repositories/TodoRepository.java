@@ -11,11 +11,14 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-//    @Query(nativeQuery = true, value = "SELECT * FROM todos WHERE finalizado = true order by data_para_finalizar desc ")
+//    @Query(nativeQuery = true, value = "SELECT * FROM todos WHERE finalizado = false order by data_para_finalizar desc ")
 //    List<Todo> findTodosByFinalizado();
+//    Ou
+    List<Todo> findTodosByFinalizadoIsFalseOrderByDataParaFinalizarDesc();
 
+//    @Query(nativeQuery = true, value = "SELECT * FROM todos WHERE finalizado = true order by data_para_finalizar desc ")
+//    List<Todo> findTodosByAberto();
 //    Ou
     List<Todo> findTodosByFinalizadoIsTrueOrderByDataParaFinalizarDesc();
-
 
 }

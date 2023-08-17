@@ -32,6 +32,19 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoDTO> listTodoOpen() {
+        return todoRepository.findTodosByFinalizadoIsFalseOrderByDataParaFinalizarDesc()
+                .stream()
+                .map(todoMapper::todoToTodoDto)
+                .collect(Collectors.toList());
+
+//        return todoRepository.findTodosByFinalizado()
+//                .stream()
+//                .map(todoMapper::todoToTodoDto)
+//                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TodoDTO> listTodoClose() {
         return todoRepository.findTodosByFinalizadoIsTrueOrderByDataParaFinalizarDesc()
                 .stream()
                 .map(todoMapper::todoToTodoDto)

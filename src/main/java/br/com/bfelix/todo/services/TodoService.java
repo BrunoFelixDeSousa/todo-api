@@ -13,6 +13,7 @@ public interface TodoService {
     Optional<TodoDTO> getTodoById(Long id);
 
     List<TodoDTO> listTodoOpen();
+    List<TodoDTO> listTodoClose();
 
 
 }
