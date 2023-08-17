@@ -11,6 +11,11 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-    @Query("SELECT obj FROM Todo obj WHERE obj.finalizado = :false order by obj.dataParaFinalizar")
-    List<TodoDTO> listTodoOpen();
+//    @Query(nativeQuery = true, value = "SELECT * FROM todos WHERE finalizado = true order by data_para_finalizar desc ")
+//    List<Todo> findTodosByFinalizado();
+
+//    Ou
+    List<Todo> findTodosByFinalizadoIsTrueOrderByDataParaFinalizarDesc();
+
+
 }

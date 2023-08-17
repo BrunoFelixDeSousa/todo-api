@@ -1,6 +1,7 @@
 package br.com.bfelix.todo.controllers;
 
 import br.com.bfelix.todo.model.dto.TodoDTO;
+import br.com.bfelix.todo.model.entities.Todo;
 import br.com.bfelix.todo.services.TodoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class TodoController {
 
     private static final String TODO_PATH = "/api/v1/todo";
+    private static final String TODO_PATH_OPEN = TODO_PATH + "/open";
     private static final String TODO_PATH_ID = TODO_PATH + "/{todoId}";
 
     private final TodoService todoService;
@@ -45,7 +47,7 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.OK).body(todoDTO);
     }
 
-    @GetMapping(TODO_PATH + "/open")
+    @GetMapping(TODO_PATH_OPEN)
     public ResponseEntity<List<TodoDTO>> listarTodosAberto() {
         List<TodoDTO> todoDTOList = todoService.listTodoOpen();
         return ResponseEntity.status(HttpStatus.OK).body(todoDTOList);
