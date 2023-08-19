@@ -10,10 +10,12 @@ public interface TodoService {
 
     List<TodoDTO> listTodo();
 
-    Optional<TodoDTO> getTodoById(Long id);
-
     List<TodoDTO> listTodoOpen();
+
     List<TodoDTO> listTodoClose();
 
+    Optional<TodoDTO> getTodoById(Long id);
+
+    TodoDTO SaveTodo(TodoDTO todoDTO);
 
 }

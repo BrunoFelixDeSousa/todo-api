@@ -4,13 +4,13 @@ import br.com.bfelix.todo.model.dto.TodoDTO;
 import br.com.bfelix.todo.model.entities.Todo;
 import br.com.bfelix.todo.services.TodoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +58,16 @@ public class TodoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(todoDTO);
+    }
+
+    @PostMapping(TODO_PATH)
+    public ResponseEntity<TodoDTO> CriarTodo(@RequestBody TodoDTO todoDTO) {
+        TodoDTO dto = todoService.SaveTodo(todoDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{todoId}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Location", TODO_PATH + "/" + dto.getId().toString());
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 }

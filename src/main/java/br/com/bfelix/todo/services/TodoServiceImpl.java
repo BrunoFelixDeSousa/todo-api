@@ -2,6 +2,7 @@ package br.com.bfelix.todo.services;
 
 import br.com.bfelix.todo.mappers.TodoMapper;
 import br.com.bfelix.todo.model.dto.TodoDTO;
+import br.com.bfelix.todo.model.entities.Todo;
 import br.com.bfelix.todo.repositories.TodoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,6 @@ public class TodoServiceImpl implements TodoService {
                 .stream()
                 .map(todoMapper::todoToTodoDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Optional<TodoDTO> getTodoById(Long id) {
-        return Optional.ofNullable(todoMapper.todoToTodoDto(todoRepository.findById(id).orElse(null)));
     }
 
     @Override
@@ -54,5 +50,15 @@ public class TodoServiceImpl implements TodoService {
 //                .stream()
 //                .map(todoMapper::todoToTodoDto)
 //                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<TodoDTO> getTodoById(Long id) {
+        return Optional.ofNullable(todoMapper.todoToTodoDto(todoRepository.findById(id).orElse(null)));
+    }
+
+    @Override
+    public TodoDTO SaveTodo(TodoDTO todoDTO) {
+        return todoMapper.todoToTodoDto(todoRepository.save(todoMapper.todoDtoToTodo(todoDTO)));
     }
 }
