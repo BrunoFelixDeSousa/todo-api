@@ -54,9 +54,6 @@ public class TodoController {
 
         Optional<TodoDTO> todoDTO = todoService.getTodoById(id);
 
-        if (todoDTO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.status(HttpStatus.OK).body(todoDTO);
     }
 

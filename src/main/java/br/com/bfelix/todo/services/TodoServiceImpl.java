@@ -3,6 +3,7 @@ package br.com.bfelix.todo.services;
 import br.com.bfelix.todo.mappers.TodoMapper;
 import br.com.bfelix.todo.model.dto.TodoDTO;
 import br.com.bfelix.todo.model.entities.Todo;
+import br.com.bfelix.todo.model.exceptions.TodoNotFoundException;
 import br.com.bfelix.todo.repositories.TodoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class TodoServiceImpl implements TodoService {
     public List<TodoDTO> listTodo() {
         return todoRepository.findAll()
                 .stream()
-                .map(todoMapper::todoToTodoDto)
+                .map(todoMapper::toTodoDTO)
                 .collect(Collectors.toList());
     }
 
@@ -30,7 +31,7 @@ public class TodoServiceImpl implements TodoService {
     public List<TodoDTO> listTodoOpen() {
         return todoRepository.findTodosByFinalizadoIsFalseOrderByDataParaFinalizarDesc()
                 .stream()
-                .map(todoMapper::todoToTodoDto)
+                .map(todoMapper::toTodoDTO)
                 .collect(Collectors.toList());
 
 //        return todoRepository.findTodosByFinalizado()
@@ -43,7 +44,7 @@ public class TodoServiceImpl implements TodoService {
     public List<TodoDTO> listTodoClose() {
         return todoRepository.findTodosByFinalizadoIsTrueOrderByDataParaFinalizarDesc()
                 .stream()
-                .map(todoMapper::todoToTodoDto)
+                .map(todoMapper::toTodoDTO)
                 .collect(Collectors.toList());
 
 //        return todoRepository.findTodosByFinalizado()
@@ -54,12 +55,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Optional<TodoDTO> getTodoById(Long id) {
-        return Optional.ofNullable(todoMapper.todoToTodoDto(todoRepository.findById(id).orElse(null)));
+        return Optional.ofNullable(todoMapper.toTodoDTO(todoRepository.findById(id).orElseThrow(
+                () -> new TodoNotFoundException("Todo não encontrado! " + id + ", tipo: " + Todo.class.getName()))));
     }
 
     @Override
     public TodoDTO SaveTodo(TodoDTO todoDTO) {
-        return todoMapper.todoToTodoDto(todoRepository.save(todoMapper.todoDtoToTodo(todoDTO)));
+        return todoMapper.toTodoDTO(todoRepository.save(todoMapper.toTodo(todoDTO)));
     }
 
     @Override

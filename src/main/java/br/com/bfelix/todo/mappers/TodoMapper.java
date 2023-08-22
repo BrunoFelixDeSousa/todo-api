@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper
 public interface TodoMapper {
 
-    Todo todoDtoToTodo(TodoDTO dto);
-    TodoDTO todoToTodoDto(Todo todo);
+    Todo toTodo(TodoDTO dto);
+    TodoDTO toTodoDTO(Todo todo);
 }
