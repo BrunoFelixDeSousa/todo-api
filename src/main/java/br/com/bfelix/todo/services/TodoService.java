@@ -18,4 +18,5 @@ public interface TodoService {
 
     TodoDTO SaveTodo(TodoDTO todoDTO);
 
+    Boolean deleteTodo(Long id);
 }

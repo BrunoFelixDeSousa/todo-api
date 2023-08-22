@@ -61,4 +61,14 @@ public class TodoServiceImpl implements TodoService {
     public TodoDTO SaveTodo(TodoDTO todoDTO) {
         return todoMapper.todoToTodoDto(todoRepository.save(todoMapper.todoDtoToTodo(todoDTO)));
     }
+
+    @Override
+    public Boolean deleteTodo(Long id) {
+
+        if (todoRepository.existsById(id)) {
+            todoRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

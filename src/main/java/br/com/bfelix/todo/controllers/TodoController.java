@@ -61,7 +61,7 @@ public class TodoController {
     }
 
     @PostMapping(TODO_PATH)
-    public ResponseEntity<TodoDTO> CriarTodo(@RequestBody TodoDTO todoDTO) {
+    public ResponseEntity<TodoDTO> criarTodo(@RequestBody TodoDTO todoDTO) {
         TodoDTO dto = todoService.SaveTodo(todoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{todoId}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -69,5 +69,15 @@ public class TodoController {
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.add("Location", TODO_PATH + "/" + dto.getId().toString());
 //        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(TODO_PATH_ID)
+    public ResponseEntity<Object> deletarTodo(@PathVariable("todoId") Long id) {
+
+        if (!todoService.deleteTodo(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todo não encontrado");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Deletado");
     }
 }
