@@ -21,4 +21,6 @@ public interface TodoService {
     Boolean deleteTodo(Long id);
 
     TodoDTO updateTodo(Long id, TodoDTO todoDTO);
+
+    Optional<TodoDTO> updatePatchTodo(Long id, TodoDTO todoDTO);
 }

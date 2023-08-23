@@ -9,9 +9,11 @@ import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -90,5 +92,31 @@ public class TodoServiceImpl implements TodoService {
         todoRepository.save(todo);
 
         return todoMapper.toTodoDTO(todo);
+    }
+
+    @Override
+    public Optional<TodoDTO> updatePatchTodo(Long id, TodoDTO todoDTO) {
+
+        AtomicReference<Optional<TodoDTO>> atomicReference =  new AtomicReference<>();
+
+        todoRepository.findById(id).ifPresentOrElse(foundTodo -> {
+
+            if (StringUtils.hasText(todoDTO.getTitulo())) {
+                foundTodo.setTitulo(todoDTO.getTitulo());
+            }
+            if (StringUtils.hasText(todoDTO.getDescricao())) {
+                foundTodo.setDescricao(todoDTO.getDescricao());
+            }
+            if (todoDTO.getFinalizado() != null) {
+                foundTodo.setFinalizado(todoDTO.getFinalizado());
+            }
+            if (todoDTO.getDataParaFinalizar() != null) {
+                foundTodo.setDataParaFinalizar(todoDTO.getDataParaFinalizar());
+            }
+
+            atomicReference.set(Optional.of(todoMapper.toTodoDTO(todoRepository.save(foundTodo))));
+        }, () -> new TodoNotFoundException("Todo não encontrado! " + id + ", tipo: " + Todo.class.getName()));
+
+        return atomicReference.get();
     }
 }

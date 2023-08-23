@@ -1,10 +1,8 @@
 package br.com.bfelix.todo.controllers;
 
 import br.com.bfelix.todo.model.dto.TodoDTO;
-import br.com.bfelix.todo.model.entities.Todo;
 import br.com.bfelix.todo.services.TodoService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -81,6 +79,14 @@ public class TodoController {
     public ResponseEntity<TodoDTO> atualizarTodo(@PathVariable("todoId") Long id, @RequestBody TodoDTO todoDTO) {
 
         TodoDTO dto = todoService.updateTodo(id, todoDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
+
+    @PatchMapping(TODO_PATH_ID)
+    public ResponseEntity<Optional<TodoDTO>> atualizarPatchTodo(@PathVariable("todoId") Long id, @RequestBody TodoDTO todoDTO) {
+
+        Optional<TodoDTO> dto = todoService.updatePatchTodo(id, todoDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
