@@ -5,7 +5,9 @@ import br.com.bfelix.todo.model.dto.TodoDTO;
 import br.com.bfelix.todo.model.entities.Todo;
 import br.com.bfelix.todo.model.exceptions.TodoNotFoundException;
 import br.com.bfelix.todo.repositories.TodoRepository;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,7 +58,8 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Optional<TodoDTO> getTodoById(Long id) {
         return Optional.ofNullable(todoMapper.toTodoDTO(todoRepository.findById(id).orElseThrow(
-                () -> new TodoNotFoundException("Todo não encontrado! " + id + ", tipo: " + Todo.class.getName()))));
+                () -> new TodoNotFoundException("Todo não encontrado! " + id + ", tipo: " + Todo.class.getName()
+                ))));
     }
 
     @Override
@@ -72,5 +75,20 @@ public class TodoServiceImpl implements TodoService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public TodoDTO updateTodo(Long id, TodoDTO todoDTO) {
+
+        Optional<Todo> todoOptional = Optional.ofNullable(todoRepository.findById(id).orElseThrow(
+                () -> new TodoNotFoundException("Todo não encontrado! " + id + ", tipo: " + Todo.class.getName())
+        ));
+
+        Todo todo = new Todo();
+        BeanUtils.copyProperties(todoDTO, todo);
+        todo.setId(todoOptional.get().getId());
+        todoRepository.save(todo);
+
+        return todoMapper.toTodoDTO(todo);
     }
 }

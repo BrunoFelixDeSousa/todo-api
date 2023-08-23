@@ -74,7 +74,14 @@ public class TodoController {
         if (!todoService.deleteTodo(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todo não encontrado");
         }
-
         return ResponseEntity.status(HttpStatus.OK).body("Deletado");
+    }
+
+    @PutMapping(TODO_PATH_ID)
+    public ResponseEntity<TodoDTO> atualizarTodo(@PathVariable("todoId") Long id, @RequestBody TodoDTO todoDTO) {
+
+        TodoDTO dto = todoService.updateTodo(id, todoDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 }
