@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -21,27 +23,28 @@ public class BootstrapData implements CommandLineRunner {
         carregarDadosTodo();
     }
 
-    private void carregarDadosTodo() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private void carregarDadosTodo() throws ParseException {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         if (todoRepository.count() == 0) {
             Todo todo1 = Todo.builder()
                     .titulo("Estudar java")
                     .descricao("finalizar projeto todo")
-                    .dataParaFinalizar(LocalDateTime.parse("10/08/2023 23:59", formatter))
+                    .dataParaFinalizar(sdf.parse("10/08/2023"))
                     .finalizado(false)
                     .build();
 
             Todo todo2 = Todo.builder()
                     .titulo("Estudar Spring")
                     .descricao("finalizar projeto todo")
-                    .dataParaFinalizar(LocalDateTime.parse("11/08/2023 23:59", formatter))
+                    .dataParaFinalizar(sdf.parse("11/08/2023"))
                     .finalizado(false)
                     .build();
 
             Todo todo3 = Todo.builder()
                     .titulo("Estudar Angular")
                     .descricao("finalizar frontend do projeto todo")
-                    .dataParaFinalizar(LocalDateTime.parse("13/08/2023 23:59", formatter))
+                    .dataParaFinalizar(sdf.parse("13/08/2023"))
                     .finalizado(false)
                     .build();
 

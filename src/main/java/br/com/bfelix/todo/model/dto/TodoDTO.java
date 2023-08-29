@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -12,6 +13,6 @@ public class TodoDTO {
     private Long id;
     private String titulo;
     private String descricao;
-    private LocalDateTime dataParaFinalizar;
+    private Date dataParaFinalizar;
     private Boolean finalizado;
 }
