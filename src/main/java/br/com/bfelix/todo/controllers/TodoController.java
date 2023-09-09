@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +78,7 @@ public class TodoController {
     }
 
     @PutMapping(TODO_PATH_ID)
-    public ResponseEntity<TodoDTO> atualizarTodo(@PathVariable("todoId") Long id, @RequestBody TodoDTO todoDTO) {
+    public ResponseEntity<TodoDTO> atualizarTodo(@PathVariable("todoId") Long id, @RequestBody TodoDTO todoDTO) throws ParseException {
 
         TodoDTO dto = todoService.updateTodo(id, todoDTO);
 

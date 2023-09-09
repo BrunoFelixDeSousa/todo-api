@@ -3,6 +3,7 @@ package br.com.bfelix.todo.services;
 import br.com.bfelix.todo.model.dto.TodoDTO;
 import org.springframework.data.jpa.repository.Query;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
